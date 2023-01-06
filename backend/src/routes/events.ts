@@ -20,9 +20,9 @@ const { map, split } = eventStream
 const pipeline = promisify(Stream.pipeline)
 
 export function events(req: Http2ServerRequest, res: Http2ServerResponse): void {
-    const token = getToken(req)
-    if (!token) return unauthorized(req, res)
-    ServerSideEvents.handleRequest(token, req, res)
+    // const token = getToken(req)
+    // if (!token) return unauthorized(req, res)
+    ServerSideEvents.handleRequest(process.env.TOKEN, req, res)
 }
 
 interface WatchEvent {

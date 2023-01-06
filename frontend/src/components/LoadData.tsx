@@ -114,7 +114,6 @@ import {
     UserPreferenceApiVersion,
     UserPreferenceKind,
 } from '../resources'
-import { tokenExpired } from '../logout'
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import {
     agentClusterInstallsState,
@@ -468,33 +467,33 @@ export function LoadData(props: { children?: ReactNode }) {
         }
     }, [setSettings, setters, setLoaded])
 
-    useEffect(() => {
-        function checkLoggedIn() {
-            fetch(`${getBackendUrl()}/authenticated`, {
-                credentials: 'include',
-                headers: { accept: 'application/json' },
-            })
-                .then((res) => {
-                    switch (res.status) {
-                        case 200:
-                            break
-                        default:
-                            tokenExpired()
-                            break
-                    }
-                })
-                .catch(() => {
-                    tokenExpired()
-                })
-                .finally(() => {
-                    setTimeout(checkLoggedIn, 30 * 1000)
-                })
-        }
+    // useEffect(() => {
+    //     function checkLoggedIn() {
+    //         fetch(`${getBackendUrl()}/authenticated`, {
+    //             credentials: 'include',
+    //             headers: { accept: 'application/json' },
+    //         })
+    //             .then((res) => {
+    //                 switch (res.status) {
+    //                     case 200:
+    //                         break
+    //                     default:
+    //                         tokenExpired()
+    //                         break
+    //                 }
+    //             })
+    //             .catch(() => {
+    //                 tokenExpired()
+    //             })
+    //             .finally(() => {
+    //                 setTimeout(checkLoggedIn, 30 * 1000)
+    //             })
+    //     }
 
-        if (process.env.MODE !== 'plugin') {
-            checkLoggedIn()
-        }
-    }, [])
+    //     // if (process.env.MODE !== 'plugin') {
+    //     //     checkLoggedIn()
+    //     // }
+    // }, [])
 
     const children = useMemo(() => <Fragment>{props.children}</Fragment>, [props.children])
 
